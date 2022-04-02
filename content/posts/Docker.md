@@ -1,0 +1,141 @@
+---
+title: "Hello World"
+date: 2022-04-02T23:38:05+09:00
+draft: false
+---
+## 環境
+
+今回の環境は、以下の通りです。
+
+OS：CentOS 7.5 (Vagrant環境)
+
+インストールするものは、以下です。
+
+Docker：1.13.1
+
+## Docker をインストールする
+
+CentOS 7系だと、Dockerはyumのデフォルトリポジトリでインストールできるようになったようで、簡単にインストールできました。
+
+```
+$ sudo yum -y install docker
+<中略>
+Installed:
+  docker.x86_64 2:1.13.1-75.git8633870.el7.centos
+
+
+Dependency Installed:
+  PyYAML.x86_64 0:3.10-11.el7                                      atomic-registries.x86_64 1:1.22.1-25.git5a342e3.el7.centos
+  audit-libs-python.x86_64 0:2.8.1-3.el7_5.1                       checkpolicy.x86_64 0:2.5-6.el7
+  container-selinux.noarch 2:2.68-1.el7                            container-storage-setup.noarch 0:0.11.0-2.git5eaf76c.el7
+  device-mapper-event.x86_64 7:1.02.146-4.el7                      device-mapper-event-libs.x86_64 7:1.02.146-4.el7
+  device-mapper-persistent-data.x86_64 0:0.7.3-3.el7               docker-client.x86_64 2:1.13.1-75.git8633870.el7.centos
+  docker-common.x86_64 2:1.13.1-75.git8633870.el7.centos           libaio.x86_64 0:0.3.109-13.el7
+  libcgroup.x86_64 0:0.41-15.el7                                   libsemanage-python.x86_64 0:2.5-11.el7
+  libyaml.x86_64 0:0.1.4-11.el7_0                                  lvm2.x86_64 7:2.02.177-4.el7
+  lvm2-libs.x86_64 7:2.02.177-4.el7                                oci-register-machine.x86_64 1:0-6.git2b44233.el7
+  oci-systemd-hook.x86_64 1:0.1.17-2.git83283a0.el7                oci-umount.x86_64 2:2.3.3-3.gite3c9055.el7
+  policycoreutils-python.x86_64 0:2.5-22.el7                       python-IPy.noarch 0:0.75-6.el7
+  python-backports.x86_64 0:1.0-8.el7                              python-backports-ssl_match_hostname.noarch 0:3.5.0.1-1.el7
+  python-ipaddress.noarch 0:1.0.16-2.el7                           python-pytoml.noarch 0:0.1.14-1.git7dea353.el7
+  python-setuptools.noarch 0:0.9.8-7.el7                           setools-libs.x86_64 0:3.3.8-2.el7
+  skopeo-containers.x86_64 1:0.1.31-1.dev.gitae64ff7.el7.centos    subscription-manager-rhsm-certificates.x86_64 0:1.20.11-1.el7.centos
+  yajl.x86_64 0:2.0.4-4.el7
+
+Complete!
+```
+
+インストールが終わったら、自動起動するように設定し、起動させましょう。
+まずは状態を確認します。まだ起動していません。
+
+```
+$ sudo systemctl status docker
+● docker.service - Docker Application Container Engine
+   Loaded: loaded (/usr/lib/systemd/system/docker.service; disabled; vendor preset: disabled)
+   Active: inactive (dead) since Tue 2018-10-09 13:37:19 UTC; 6s ago
+     Docs: http://docs.docker.com
+```
+
+自動起動を有効化してみます。
+statusの出力結果の2行目(Loadedで始まる行)の中ほど少し後ろにあった「disabled」が「enabled」になってますね。
+
+```
+$ sudo systemctl enable docker
+Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
+
+$ sudo systemctl status docker
+● docker.service - Docker Application Container Engine
+   Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; vendor preset: disabled)
+   Active: inactive (dead) since Tue 2018-10-09 13:37:19 UTC; 1min 31s ago
+     Docs: http://docs.docker.com
+```
+
+では、起動させてみましょう。
+
+```
+$ sudo systemctl start docker
+
+$ sudo systemctl status docker
+● docker.service - Docker Application Container Engine
+   Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; vendor preset: disabled)
+   Active: active (running) since Tue 2018-10-09 13:42:58 UTC; 11s ago
+     Docs: http://docs.docker.com
+ Main PID: 3236 (dockerd-current)
+   CGroup: /system.slice/docker.service
+           tq3236 /usr/bin/dockerd-current --add-runtime docker-runc=/usr/libexec/docker/docker-runc-current --default-runtime=docker-run...
+           mq3240 /usr/bin/docker-containerd-current -l unix:///var/run/docker/libcontainerd/docker-containerd.sock --metrics-interval=0 ...
+
+$ ps -ef | grep docker
+root      3236     1  1 13:42 ?        00:00:00 /usr/bin/dockerd-current --add-runtime docker-runc=/usr/libexec/docker/docker-runc-current --default-runtime=docker-runc --exec-opt native.cgroupdriver=systemd --userland-proxy-path=/usr/libexec/docker/docker-proxy-current --init-path=/usr/libexec/docker/docker-init-current --seccomp-profile=/etc/docker/seccomp.json --selinux-enabled --log-driver=journald --signature-verification=false --storage-driver overlay2
+root      3240  3236  0 13:42 ?        00:00:00 /usr/bin/docker-containerd-current -l unix:///var/run/docker/libcontainerd/docker-containerd.sock --metrics-interval=0 --start-timeout 2m --state-dir /var/run/docker/libcontainerd/containerd --shim docker-containerd-shim --runtime docker-runc --runtime-args --systemd-cgroup=true
+```
+
+バージョンは、1.13.1です。
+
+```
+$ docker -v
+Docker version 1.13.1, build 8633870/1.13.1
+```
+
+VagrantユーザでDockerの操作ができるようにしておきます。
+
+```
+$ sudo groupadd docker
+$ sudo gpasswd -a vagrant docker
+Adding user vagrant to group docker
+$ sudo systemctl restart docker
+```
+
+一度ログインしなおすことで、vagrantユーザでdockerが操作できるようになります。
+
+```
+Loginしなおしたあと
+
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+```
+
+### node.js
+
+node.js公式のDockerイメージをダウンロードします。
+
+```
+$ docker pull node
+Using default tag: latest
+Trying to pull repository docker.io/library/node ...
+latest: Pulling from docker.io/library/node
+f189db1b88b3: Pull complete
+3d06cf2f1b5e: Pull complete
+687ebdda822c: Pull complete
+99119ca3f34e: Pull complete
+e771d6006054: Pull complete
+b0cc28d0be2c: Pull complete
+ee69cdbe70ee: Pull complete
+1a0a174392b6: Pull complete
+Digest: sha256:32d5d5435e5038028bd0c0871d256d5887b06c4315cb1a135bcf81e0735627c9
+Status: Downloaded newer image for docker.io/node:latest
+
+$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+docker.io/node      latest              8672b25e842c        2 weeks ago         674 MB
+```
