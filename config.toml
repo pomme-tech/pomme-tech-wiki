@@ -1,4 +1,0 @@
-baseURL = 'https://pomme-tech.github.io/pomme-tech-wiki'
-languageCode = 'en-us'
-title = 'Pomme Tech Wiki'
-theme = "techdoc"
