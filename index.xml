@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pomme Tech Wiki</title><link>https://pomme-tech.github.io/pomme-tech-wiki/</link><description>Recent content on Pomme Tech Wiki</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 02 Apr 2022 23:38:05 +0900</lastBuildDate><atom:link href="https://pomme-tech.github.io/pomme-tech-wiki/index.xml" rel="self" type="application/rss+xml"/><item><title>Hello World</title><link>https://pomme-tech.github.io/pomme-tech-wiki/posts/docker/</link><pubDate>Sat, 02 Apr 2022 23:38:05 +0900</pubDate><guid>https://pomme-tech.github.io/pomme-tech-wiki/posts/docker/</guid><description>環境 今回の環境は、以下の通りです。
+OS：CentOS 7.5 (Vagrant環境)
+インストールするものは、以下です。
+Docker：1.13.1
+Docker をインストールする CentOS 7系だと、Dockerはyumのデフォルトリポジトリでインストールできるようになったようで、簡単にインストールできました。
+$ sudo yum -y install docker
+&amp;lt;中略&amp;gt;
+Installed:
+docker.x86_64 2:1.13.1-75.git8633870.el7.centos
+Dependency Installed:
+PyYAML.x86_64 0:3.10-11.el7 atomic-registries.x86_64 1:1.22.1-25.git5a342e3.el7.centos
+audit-libs-python.x86_64 0:2.8.1-3.el7_5.1 checkpolicy.x86_64 0:2.5-6.el7
+container-selinux.noarch 2:2.68-1.el7 container-storage-setup.noarch 0:0.11.0-2.git5eaf76c.el7
+device-mapper-event.x86_64 7:1.02.146-4.el7 device-mapper-event-libs.x86_64 7:1.02.146-4.el7
+device-mapper-persistent-data.x86_64 0:0.7.3-3.el7 docker-client.x86_64 2:1.13.1-75.git8633870.el7.centos
+docker-common.x86_64 2:1.13.1-75.git8633870.el7.centos libaio.x86_64 0:0.3.109-13.el7
+libcgroup.x86_64 0:0.41-15.el7 libsemanage-python.x86_64 0:2.5-11.el7
+libyaml.x86_64 0:0.1.4-11.el7_0 lvm2.x86_64 7:2.02.177-4.el7
+lvm2-libs.x86_64 7:2.02.177-4.el7 oci-register-machine.x86_64 1:0-6.git2b44233.el7
+oci-systemd-hook.x86_64 1:0.1.17-2.git83283a0.el7 oci-umount.x86_64 2:2.3.3-3.gite3c9055.el7
+policycoreutils-python.x86_64 0:2.5-22.el7 python-IPy.noarch 0:0.75-6.el7
+python-backports.x86_64 0:1.0-8.el7 python-backports-ssl_match_hostname.noarch 0:3.</description></item><item><title>Hello World</title><link>https://pomme-tech.github.io/pomme-tech-wiki/posts/hello-world/</link><pubDate>Sat, 02 Apr 2022 23:37:05 +0900</pubDate><guid>https://pomme-tech.github.io/pomme-tech-wiki/posts/hello-world/</guid><description>Hello world! こんにちは。</description></item></channel></rss>
